@@ -4,7 +4,7 @@
 
 <!-- Secondary navigation (outside the main nav container) -->
 <div class="secondary-nav">
-    <a href="#" class="btn btn-secondary-nav me-1">Classified Documents</a>
+    <a href="{{url('/classified-documents')}}" class="btn btn-secondary-nav me-1">Classified Documents</a>
     <a href="#" class="btn btn-secondary-nav">Classify Document</a>
 </div>
 <script>
