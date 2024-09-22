@@ -55,6 +55,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
+use App\Models\DocumentTerm;
 use App\Models\Term;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -94,13 +96,42 @@ class DocumentController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
 
             // Store the result data to pass to the view
-            $result = $data; // Assuming $data contains the classification or similarity result
+            $results = $data; // Assuming $data contains the classification or similarity result
+            $termIds = [];
+            foreach ($results as $result) {
+                if(array_key_exists('term', $result)) {
+                    $termIds[] = Term::where(['term' => $result['term']])->first()->id;
+                }
+            }
         } catch (\Exception $e) {
             // If an error occurs, set the error message to be displayed
             $errorMessage = $e->getMessage();
         }
 
         // Pass the result or error message back to the Blade view
-        return view('documents.classify_document', compact('result', 'errorMessage'));
+        return view('documents.classify_document', compact('results','termIds', 'errorMessage'));
+    }
+
+    public function saveClassification(Request $request)
+    {
+        $termId = $request->input('termId');
+        $documentAbstract = $request->input('summary');
+
+        $document = new Document();
+        $document->document_name = 'Document-001';
+        $document->title = 'test Title-001';
+        $document->summary = $documentAbstract;
+
+        if($document->save()) {
+            $savedDocumentId = $document->id;
+
+            $documentTerm = new DocumentTerm();
+
+            $documentTerm->document_id = $savedDocumentId;
+            $documentTerm->term_id = $termId;
+            $documentTerm->save();
+
+        }
+
     }
 }

@@ -9,7 +9,8 @@
                 <form method="post" action="{{url('/findSemanticSimilarity')}}">
                     @csrf
                     <div class="mb-3">
-                        <textarea name="summary" required class="form-control" id="summary" rows="20" placeholder="Document Abstract"></textarea>
+                        <textarea name="summary" required class="form-control" id="summary" rows="20"
+                                  placeholder="Document Abstract"></textarea>
                     </div>
                     <div class="mb-3">
                         <select class="form-select" aria-label="Default select example" required name="method">
@@ -25,11 +26,11 @@
                 </form>
             </div>
             <!-- Display the result here if it exists -->
-            @if(isset($result))
+            @if(isset($results))
                 <div class="offset-2 col-md-4 mt-6">
                     <h5 class="text-success">Classification Result:</h5>
 
-                    @foreach($result as $classification)
+                    @foreach($results as $key=> $classification)
                         <div class="card mb-3">
                             <div class="card-body">
                                 <!-- Show both method and term for the first card -->
@@ -39,9 +40,18 @@
                                     </p>
                                 @else
                                     <!-- Show only the term for the rest of the cards -->
-                                    <h6 class="card-title">
-                                        <strong>Term:</strong> {{ isset($classification['term']) ? $classification['term'] : 'N/A' }}
-                                    </h6>
+
+                                    <form method="post" action="{{url('/save-classification')}}">
+                                        @csrf
+                                        <h6 class="card-title d-flex">
+                                            <strong>Term:</strong> {{ isset($classification['term']) ? $classification['term'] : 'N/A' }}
+                                            <input type="hidden" name="termId" value="{{$termIds[$key-1]}}">
+                                            <input type="hidden" name="summary" value="{{$classification['summary']}}">
+                                            <button type="submit" class="btn btn-secondary-nav ms-auto">Classify
+                                            </button>
+                                        </h6>
+                                    </form>
+
                                 @endif
                             </div>
                         </div>

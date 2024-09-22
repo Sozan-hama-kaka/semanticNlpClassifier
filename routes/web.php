@@ -11,3 +11,4 @@ Route::get('/', function () {
 Route::get('/classified-documents',[DocumentController::class,'documentClassification']);
 Route::get('/classify-document',[DocumentController::class,'classifyDocument']);
 Route::post('/findSemanticSimilarity', [DocumentController::class, 'findSemanticSimilarity']);
+Route::post('/save-classification', [DocumentController::class, 'saveClassification']);
