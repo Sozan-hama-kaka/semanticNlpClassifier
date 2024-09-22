@@ -1,11 +1,11 @@
 <div class="nav-container">
-    <h4 class="text-light text-start">SemanticNLP Classifier</h4>
+    <a class="logo-brand text-start" href="{{url('/')}}">SemanticNLP Classifier</a>
 </div>
 
 <!-- Secondary navigation (outside the main nav container) -->
 <div class="secondary-nav">
     <a href="{{url('/classified-documents')}}" class="btn btn-secondary-nav me-1">Classified Documents</a>
-    <a href="#" class="btn btn-secondary-nav">Classify Document</a>
+    <a href="{{'/classify-document'}}" class="btn btn-secondary-nav">Classify Document</a>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -27,4 +27,3 @@
         });
     });
 </script>
-
