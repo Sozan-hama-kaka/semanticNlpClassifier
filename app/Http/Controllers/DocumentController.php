@@ -36,7 +36,7 @@ class DocumentController extends Controller
 
         try {
             // Replace 192.168.0.84 with the IP address of your Flask application
-            $response = $client->request('POST', "http://172.24.95.247:5000/compare", [
+            $response = $client->request('POST', env('DEV_IP') . ":5000/compare", [
                 'query' => [
                     'summary' => $summary,
                     'method' => $method
