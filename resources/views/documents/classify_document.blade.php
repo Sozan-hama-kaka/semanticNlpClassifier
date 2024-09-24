@@ -2,30 +2,37 @@
 
 @section('content')
     <div class="mx-1">
-        <h5>Please provide the abstract of your document for classification</h5>
+
 
         <div class="row">
             <div class="col-md-5">
-                <form method="post" action="{{url('/findSemanticSimilarity')}}">
-                    @csrf
-                    <div class="mb-3">
+                @if(!empty($results))
+                    <p class="fs-3 fw-bold mt-2 p-2">Document Summary</p>
+                    <p class="fs-6 mt-3 lh-lg text-md-justify p-2">
+                        {{$results[1]['summary']}}
+                    </p>
+                @else
+                    <h5>Please provide the abstract of your document for classification</h5>
+                    <form method="post" action="{{url('/findSemanticSimilarity')}}">
+                        @csrf
+                        <div class="mb-3">
                         <textarea name="summary" required class="form-control" id="summary" rows="20"
                                   placeholder="Document Abstract"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <select class="form-select" aria-label="Default select example" required name="method">
-                            <option value="" disabled selected>Select NLP Methodology</option>
-                            <option value="llm">LLM</option>
-                            <option value="sbert">S-BERT</option>
-                            <option value="word2vec">Word2Vec</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-secondary-nav">Suggest Classification</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" aria-label="Default select example" required name="method">
+                                <option value="" disabled selected>Select NLP Methodology</option>
+                                <option value="llm">LLM</option>
+                                <option value="sbert">S-BERT</option>
+                                <option value="word2vec">Word2Vec</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-secondary-nav">Suggest Classification</button>
+                        </div>
+                    </form>
+                @endif
             </div>
-            <!-- Display the result here if it exists -->
             @if(isset($results))
                 <div class="offset-2 col-md-4 mt-6">
                     <h5 class="text-success">Classification Result:</h5>
@@ -33,14 +40,11 @@
                     @foreach($results as $key=> $classification)
                         <div class="card mb-3">
                             <div class="card-body">
-                                <!-- Show both method and term for the first card -->
                                 @if($loop->first)
                                     <p class="card-text">
                                         <strong>Method:</strong> {{ isset($classification['method']) ? $classification['method'] : 'N/A' }}
                                     </p>
                                 @else
-                                    <!-- Show only the term for the rest of the cards -->
-
                                     <form method="post" action="{{url('/save-classification')}}">
                                         @csrf
                                         <h6 class="card-title d-flex">
@@ -58,7 +62,6 @@
                     @endforeach
                 </div>
             @endif
-            <!-- Display any error messages here if they exist -->
             @if(isset($errorMessage))
                 <div class="alert alert-danger mt-4">
                     <h5>Error:</h5>

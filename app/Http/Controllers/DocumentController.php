@@ -35,7 +35,6 @@ class DocumentController extends Controller
         $errorMessage = null;
 
         try {
-            // Replace 192.168.0.84 with the IP address of your Flask application
             $response = $client->request('POST', env('DEV_IP') . ":5000/compare", [
                 'query' => [
                     'summary' => $summary,
@@ -46,6 +45,7 @@ class DocumentController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
 
             $results = $data;
+            //dd($results);
             $termIds = [];
             foreach ($results as $result) {
                 if (array_key_exists('term', $result)) {
@@ -85,7 +85,7 @@ class DocumentController extends Controller
         return redirect('/classified-documents')->with('error', 'Document classification Failed');
     }
 
-    public function viewSingleClassification(Request $request)
+    public function viewSingleClassification(Request $request): view
     {
         $classificationId = $request->input('classification_id');
         $classificationName = $request->input('classification_name');
@@ -103,5 +103,16 @@ class DocumentController extends Controller
         }
 
         return view('documents.single_classification_documents', compact('relevantDocuments', 'classificationName'));
+    }
+
+    public function viewDocument(Request $request): view
+    {
+        $documentId = $request->input('document_id');
+        $document = Document::where(['id' => $documentId])->first();
+        $classification = DocumentTerm::join('tbl_terms', 'tbl_document_term.term_id', '=', 'tbl_terms.id')
+            ->where('tbl_document_term.document_id', $documentId)
+            ->select('tbl_terms.term')
+            ->first()->term;
+        return view('documents.view-document', compact('document','classification'));
     }
 }
