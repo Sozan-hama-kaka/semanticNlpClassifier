@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\DocumentTerm;
 use App\Models\Term;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -25,6 +26,11 @@ class DocumentController extends Controller
         return view('documents.classify_document');
     }
 
+    /**
+     * @param Request $request
+     * @return View
+     * @throws GuzzleException
+     */
     public function findSemanticSimilarity(Request $request): view
     {
         $summary = $request->input('summary');
@@ -59,6 +65,10 @@ class DocumentController extends Controller
         return view('documents.classify_document', compact('results', 'termIds', 'errorMessage'));
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Redirector|Application
+     */
     public function saveClassification(Request $request): RedirectResponse|Redirector|Application
     {
         $termId = $request->input('termId');
@@ -84,6 +94,10 @@ class DocumentController extends Controller
         return redirect('/classified-documents')->with('error', 'Document classification Failed');
     }
 
+    /**
+     * @param Request $request
+     * @return View
+     */
     public function viewSingleClassification(Request $request): view
     {
         $classificationId = $request->input('classification_id');
@@ -103,16 +117,17 @@ class DocumentController extends Controller
         return view('documents.single_classification_documents', compact('relevantDocuments', 'classificationName'));
     }
 
+    /**
+     * @return View
+     */
     public function documentStatistics(): View
     {
-        // Fetch terms along with the count of related documents, grouped by subfield
         $statistics = Term::withCount('documentTerms')
             ->get()
             ->groupBy('subfield');
 
-        // Format the statistics data for easy display in the view
         $subfieldStats = [];
-        $totalDocuments = 0; // Initialize total documents counter
+        $totalDocuments = 0;
         foreach ($statistics as $subfield => $terms) {
             $subfieldStats[$subfield] = [
                 'total_documents' => $terms->sum('document_terms_count'),
@@ -129,7 +144,10 @@ class DocumentController extends Controller
         return view('documents.document_statistics', compact('subfieldStats', 'totalDocuments'));
     }
 
-
+    /**
+     * @param Request $request
+     * @return View
+     */
     public function viewDocument(Request $request): view
     {
         $documentId = $request->input('document_id');
