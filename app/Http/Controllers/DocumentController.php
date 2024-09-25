@@ -215,38 +215,12 @@ class DocumentController extends Controller
         return view('documents.single_classification_documents', compact('relevantDocuments', 'classificationName'));
     }
 
-    // Method to get statistics for documents grouped by subfield
-//    public function documentStatistics(): view
-//    {
-//        // Fetch terms along with the count of related documents, grouped by subfield
-//        $statistics = Term::withCount('documentTerms') // Assuming documentTerms relation exists
-//        ->get()
-//            ->groupBy('subfield');  // Group terms by 'subfield'
-//
-//        // Format the statistics data for easy display in the view
-//        $subfieldStats = [];
-//        foreach ($statistics as $subfield => $terms) {
-//            $subfieldStats[$subfield] = [
-//                'total_documents' => $terms->sum('document_terms_count'),
-//                'terms' => $terms->map(function ($term) {
-//                    return [
-//                        'term' => $term->term,
-//                        'document_count' => $term->document_terms_count,
-//                    ];
-//                }),
-//            ];
-//        }
-//
-//        return view('documents.statistics', compact('subfieldStats'));
-//    }
-//}
-
-    public function documentStatistics(): view
+    public function documentStatistics(): View
     {
         // Fetch terms along with the count of related documents, grouped by subfield
-        $statistics = Term::withCount('documentTerms') // Assuming documentTerms relation exists
-        ->get()
-            ->groupBy('subfield'); // Group terms by 'subfield'
+        $statistics = Term::withCount('documentTerms')
+            ->get()
+            ->groupBy('subfield');
 
         // Format the statistics data for easy display in the view
         $subfieldStats = [];
@@ -261,9 +235,10 @@ class DocumentController extends Controller
                     ];
                 }),
             ];
-            $totalDocuments += $subfieldStats[$subfield]['total_documents']; // Accumulate total documents
+            $totalDocuments += $subfieldStats[$subfield]['total_documents'];
         }
 
-        return view('documents.statistics', compact('subfieldStats', 'totalDocuments')); // Pass totalDocuments to the view
+        return view('documents.document_statistics', compact('subfieldStats', 'totalDocuments'));
     }
+
 }
