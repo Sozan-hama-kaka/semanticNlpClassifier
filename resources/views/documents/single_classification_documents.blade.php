@@ -20,7 +20,7 @@
                 <td>{{$document->title}}</td>
                 <td>{{$document->document_name}}</td>
                 <td>
-                    <form>
+                    <form method="post" action="{{url('/view-document')}}">
                         @csrf
                         <input type="hidden" value="{{$document->id}}" name="document_id">
                         <button type="submit" class="btn btn-secondary-nav ms-auto">View Document</button>
