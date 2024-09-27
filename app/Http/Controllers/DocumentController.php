@@ -158,4 +158,39 @@ class DocumentController extends Controller
             ->first()->term;
         return view('documents.view-document', compact('document','classification'));
     }
+
+    public function importDocumentFromDataset()
+    {
+        $filePath = public_path('dataset/llm_result.csv');
+        if (($handle = fopen($filePath, 'r')) !== FALSE) {
+            fgetcsv($handle);
+
+            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                $title = $data[0]; // First column (Title)
+                $summary = $data[1]; // Second column (Summary)
+                $classifications = isset($data[3]) ? explode(',', $data[3]) : []; // Third column (Classification)
+                $document = new Document();
+                $document->document_name = now()->timestamp . '-document'; // Unique timestamp-document name
+                $document->title = $title;
+                $document->summary = $summary;
+                $document->save();
+
+                foreach ($classifications as $classification) {
+                    $classification = trim($classification); // Trim any extra spaces
+                    $term = Term::where('term', $classification)->first();
+
+                    if ($term) {
+                        $documentTerm = new DocumentTerm();
+                        $documentTerm->document_id = $document->id;
+                        $documentTerm->term_id = $term->id;
+                        $documentTerm->save();
+                    }
+                }
+            }
+
+            fclose($handle);
+        }
+
+        return "Documents and classifications have been imported successfully!";
+    }
 }
