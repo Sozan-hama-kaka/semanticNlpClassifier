@@ -78,3 +78,21 @@ body {
 }
 
 
+/** CHART JS **/
+
+/* Set chart containers to be centered */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh !important;
+    width: 60% !important;
+}
+
+/* Limit the max width of each chart */
+canvas {
+    max-width: 80% !important;
+    height: 60vh !important;
+}
+
+/** CHART JS **/
