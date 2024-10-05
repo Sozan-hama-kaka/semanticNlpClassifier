@@ -85,8 +85,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh !important;
-    width: 60% !important;
+    height: 50vh !important;
+    width: 100% !important;
 }
 
 /* Limit the max width of each chart */

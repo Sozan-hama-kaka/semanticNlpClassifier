@@ -12,11 +12,11 @@
                         {{$results[1]['summary']}}
                     </p>
                 @else
-                    <h5>Please provide the abstract of your document for classification</h5>
+                    <h6>Please provide the abstract of your document for classification.</h6>
                     <form method="post" action="{{url('/findSemanticSimilarity')}}">
                         @csrf
                         <div class="mb-3">
-                        <textarea name="summary" required class="form-control" id="summary" rows="20"
+                        <textarea name="summary" required class="form-control" id="summary" rows="8"
                                   placeholder="Document Abstract"></textarea>
                         </div>
                         <div class="mb-3">

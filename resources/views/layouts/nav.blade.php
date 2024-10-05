@@ -5,7 +5,8 @@
 <!-- Secondary navigation (outside the main nav container) -->
 <div class="secondary-nav">
     <a href="{{url('/classified-documents')}}" class="btn btn-secondary-nav me-1">Classified Documents</a>
-    <a href="{{'/classify-document'}}" class="btn btn-secondary-nav">Classify Document</a>
+    <a href="{{'/classify-document'}}" class="btn btn-secondary-nav me-1">Classify Document</a>
+    <a href="{{'/performance-metric'}}" class="btn btn-secondary-nav">Performance Metric</a>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

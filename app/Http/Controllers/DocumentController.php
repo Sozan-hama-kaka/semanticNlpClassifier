@@ -193,4 +193,9 @@ class DocumentController extends Controller
 
         return "Documents and classifications have been imported successfully!";
     }
+
+    public function performanceMetric(): view
+    {
+        return view('documents.performance_metric');
+    }
 }
