@@ -198,4 +198,19 @@ class DocumentController extends Controller
     {
         return view('documents.performance_metric');
     }
+
+    public function destroy($id)
+    {
+        $document = Document::findOrFail($id);
+
+        // Delete related terms
+        $document->terms()->delete(); // If terms are in a one-to-many or many-to-many relationship
+
+        // Then delete the document
+        $document->delete();
+
+        return redirect()->back()->with('success', 'Document deleted successfully.');
+    }
+
+
 }

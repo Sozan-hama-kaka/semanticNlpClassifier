@@ -16,4 +16,5 @@ Route::post('/view-document',[DocumentController::class,'viewDocument']);
 Route::get('/import-document-from-dataset',[DocumentController::class,'importDocumentFromDataset']);
 
 
+Route::delete('/delete-document/{id}', [DocumentController::class, 'destroy'])->name('delete-document');
 
