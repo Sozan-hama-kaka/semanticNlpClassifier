@@ -30,8 +30,7 @@ body {
     padding-bottom: 20px; /* Adds some space beneath the buttons */
 }
 
-.btn-secondary-nav {
-    background-color: #5A4632;
+.btn-secondary-nav, .btn-danger-nav {
     color: #f8f9fa;
     border: 2px solid #D0A84C; /* Goldish border to match the style */
     padding: 10px 30px; /* Increases padding for bigger button feel */
@@ -39,9 +38,23 @@ body {
     outline: none; /* Ensures no outline on button */
 }
 
+.btn-secondary-nav {
+    background-color: #5A4632;
+}
+
+.btn-danger-nav {
+background-color: #dc3545;
+}
+
 .btn-secondary-nav:hover {
     background-color: #937144; /* Slightly different color on hover */
     color: #fff;
+}
+
+.btn-danger-nav:hover {
+    background-color: #fff; /* Slightly different color on hover */
+    color: #000;
+    border: 1px solid #000;
 }
 
 .btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show{

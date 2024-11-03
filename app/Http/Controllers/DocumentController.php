@@ -114,8 +114,30 @@ class DocumentController extends Controller
             $relevantDocuments[] = Document::where(['id' => $documentId])->first();
         }
 
-        return view('documents.single_classification_documents', compact('relevantDocuments', 'classificationName'));
+        return view('documents.single_classification_documents', compact('relevantDocuments', 'classificationName','classificationId'));
     }
+
+    public function deleteSingleDocumentClassification(Request $request): RedirectResponse
+    {
+        $classificationId = $request->input('classification_id');
+        $classificationName = $request->input('classification_name');
+        $documentId = $request->input('document_id');
+
+        $isClassificationDeleted = DocumentTerm::where(['document_id' => $documentId, 'term_id' => $classificationId])->delete();
+
+        if ($isClassificationDeleted) {
+            return redirect()->route('view-single-classification', [
+                'classification_id' => $classificationId,
+                'classification_name' => $classificationName
+            ])->with('success', 'Classification deleted successfully.');
+        } else {
+            return redirect()->route('view-single-classification', [
+                'classification_id' => $classificationId,
+                'classification_name' => $classificationName
+            ])->with('error', 'Failed to delete classification.');
+        }
+    }
+
 
     /**
      * @return View

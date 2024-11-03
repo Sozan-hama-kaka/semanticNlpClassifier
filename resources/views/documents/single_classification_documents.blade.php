@@ -4,7 +4,15 @@
     <div class="mt-2">
        <h3>Classified Documents For {{$classificationName}}</h3>
     </div>
-
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <table class="table table-striped">
         <thead>
         <tr>
@@ -25,7 +33,14 @@
                         <input type="hidden" value="{{$document->id}}" name="document_id">
                         <button type="submit" class="btn btn-secondary-nav ms-auto">View Document</button>
                     </form>
-
+                </td>
+                <td>
+                    <form method="post" action="{{url('/delete-single-classification')}}">
+                        @csrf
+                        <input type="hidden" value="{{$document->id}}" name="document_id">
+                        <input type="hidden" value="{{$classificationId}}" name="classification_id">
+                        <button type="submit" class="btn btn-danger-nav ms-auto">Delete Document Classification</button>
+                    </form>
                 </td>
             </tr>
         @endforeach
