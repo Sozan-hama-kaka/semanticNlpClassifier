@@ -16,9 +16,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Sr#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Document Name</th>
+            <th scope="col">Nr.</th>
+            <th scope="col">Document Title</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>

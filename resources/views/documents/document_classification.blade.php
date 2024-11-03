@@ -14,8 +14,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Sr#</th>
-                <th scope="col">Classifications</th>
+                <th scope="col">Nr.</th>
+                <th scope="col">Term Classifications</th>
             </tr>
             </thead>
             <tbody>

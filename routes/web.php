@@ -18,4 +18,5 @@ Route::get('/import-document-from-dataset',[DocumentController::class,'importDoc
 Route::post('/delete-single-classification',[DocumentController::class,'deleteSingleDocumentClassification']);
 
 
+Route::delete('/delete-document/{id}', [DocumentController::class, 'destroy'])->name('delete-document');
 
