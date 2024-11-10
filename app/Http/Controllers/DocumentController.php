@@ -53,11 +53,17 @@ class DocumentController extends Controller
 
             $results = $data;
             $termIds = [];
-            foreach ($results as $result) {
-                if (array_key_exists('term', $result)) {
-                    $termIds[] = Term::where(['term' => $result['term']])->first()->id;
+            if(count($results) > 2) {
+                foreach ($results as $result) {
+                    if (array_key_exists('term', $result)) {
+                        $termIds[] = Term::where(['term' => $result['term']])->first()->id;
+                    }
                 }
             }
+            else {
+                $errorMessage = $results['message'];
+            }
+
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
         }

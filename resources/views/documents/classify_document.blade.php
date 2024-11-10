@@ -6,12 +6,18 @@
 
         <div class="row">
             <div class="col-md-5">
-                @if(!empty($results))
+                @if(!empty($results) && count($results) > 2)
                     <p class="fs-3 fw-bold mt-2 p-2">Text Provided by the User </p>
                     <p class="fs-6 mt-3 lh-lg text-md-justify p-2">
                         {{$results[1]['summary']}}
                     </p>
                 @else
+                    @if(isset($errorMessage))
+                        <div class="alert alert-danger mt-4">
+                            <h5>Error:</h5>
+                            <p>{{ $errorMessage }}</p>
+                        </div>
+                    @endif
                     <h6>Please provide the Text for classification.</h6>
                     <form method="post" action="{{url('/findSemanticSimilarity')}}">
                         @csrf
@@ -33,7 +39,7 @@
                     </form>
                 @endif
             </div>
-            @if(isset($results))
+            @if(isset($results) && count($results) > 2)
                 <div class="offset-2 col-md-4 mt-6">
                     <h5 class="text-success">Classification Result:</h5>
 
@@ -60,12 +66,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-            @endif
-            @if(isset($errorMessage))
-                <div class="alert alert-danger mt-4">
-                    <h5>Error:</h5>
-                    <p>{{ $errorMessage }}</p>
                 </div>
             @endif
         </div>
